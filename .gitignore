@@ -1,0 +1,9 @@
+build/
+.vs/
+.idea/
+*.user
+*.suo
+*.vcxproj.user
+backup.json
+backup.json.tmp
+backup.corrupted.json

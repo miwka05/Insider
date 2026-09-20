@@ -1,0 +1,8 @@
+{
+  "name": "insider",
+  "version-string": "1.0.0",
+  "dependencies": [
+    "curl",
+    "nlohmann-json"
+  ]
+}
