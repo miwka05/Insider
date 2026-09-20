@@ -21,7 +21,7 @@
 
 ## Зависимости
 
-Проект использует:
+Проект использует:  
 
 - libcurl — HTTP POST.
 - nlohmann/json — JSON. Зависимость объявлена в `vcpkg.json` и подключается через CMake.
@@ -29,42 +29,50 @@
 ## Сборка
 
 1. Установка и настройка vcpkg (если еще не настроен):
-git clone https://github.com/microsoft/vcpkg.git C:\tools\vcpkg
+```
+git clone https://github.com/microsoft/vcpkg.git C:\tools\vcpkg  
 C:\tools\vcpkg\bootstrap-vcpkg.bat
+```
 
-2. Сборка проекта:
+3. Сборка проекта:
 Откройте PowerShell в корне репозитория и выполните:
-cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_TOOLCHAIN_FILE="C:\tools\vcpkg\scripts\buildsystems\vcpkg.cmake"
+```
+cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_TOOLCHAIN_FILE="C:\tools\vcpkg\scripts\buildsystems\vcpkg.cmake"  
 cmake --build build --config Release
+```
 
 Готовый exe-файл появится по пути: build/Release/insider_agent.exe.
 
 ## Запуск и тестирование
 
 Для локальных тестов в репозитории есть простой Python-сервер.
-1. Запустите тестовый сервер (в отдельном окне PowerShell)
+1. Запустите тестовый сервер (в отдельном окне PowerShell):
+```
 python server_test.py --port 8080 --status 200
-2. Запустите агент:
+```
+3. Запустите агент:
+```
 .\build\Release\insider_agent.exe (Опционально: можно указать другой URL: .\build\Release\insider_agent.exe --url http://...)
-
+```
 
 ## Сценарии проверки
 
-Обычный режим: Переключайте окна. В консоли агента будет видно, как меняются process_name и window_title. Когда накопится 10 записей (или пройдет 30 сек), в консоли сервера появится JSON.
-Сбой сети: Остановите Python-сервер. Агент продолжит копить метрики в памяти. Запустите сервер снова, агент сам отправит накопленное.
-Аварийное завершение: Нажмите Ctrl+C в консоли агента. Проверьте, что в папке создался backup.json. Запустите агент снова, данные из файла подгрузятся в буфер.
+- Обычный режим: Переключайте окна. В консоли агента будет видно, как меняются process_name и window_title. Когда накопится 10 записей (или пройдет 30 сек), в консоли сервера появится JSON.
+- Сбой сети: Остановите Python-сервер. Агент продолжит копить метрики в памяти. Запустите сервер снова, агент сам отправит накопленное.
+- Аварийное завершение: Нажмите Ctrl+C в консоли агента. Проверьте, что в папке создался backup.json. Запустите агент снова, данные из файла подгрузятся в буфер.
 
 ## Формат JSON
-
-{
-  "agent_id": "DESKTOP-MIDDLE-C",
-  "timestamp": 1792147320,
-  "payload": [
-    {
-      "time": "2026-09-15 13:55:00",
-      "process_name": "chrome.exe",
-      "window_title": "Google",
-      "user_active": true
-    }
-  ]
-}
+```json
+{  
+  "agent_id": "DESKTOP-MIDDLE-C",  
+  "timestamp": 1792147320,  
+  "payload": [  
+    {  
+      "time": "2026-09-15 13:55:00",  
+      "process_name": "chrome.exe",  
+      "window_title": "Google",  
+      "user_active": true  
+    }  
+  ]  
+}  
+```
